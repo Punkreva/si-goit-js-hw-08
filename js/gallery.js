@@ -68,13 +68,13 @@ const images = [
 const gallery = document.querySelector(".gallery");
 
 const galleryListItem = images
-    .map(image => `<li class="gallery-item">
-  <a class="gallery-link" href="${image.original}">
+    .map(({preview, original, description}) => `<li class="gallery-item">
+  <a class="gallery-link" href="${original}">
     <img
       class="gallery-image"
-      src="${image.preview}"
-      data-source="${image.original}"
-      alt="${image.description}"
+      src="${preview}"
+      data-source="${original}"
+      alt="${description}"
       width = "360"
       heigth = "200"
     />
@@ -87,5 +87,13 @@ gallery.insertAdjacentHTML("beforeend", galleryListItem);
 gallery.addEventListener("click", handlClick);
 
 function handlClick(event) {
-    
+    event.preventDefault();
+   
+  if (event.target === event.currentTarget) {
+        return;
+      }
+      
+  const instance = basicLightbox.create(`<img src="${event.target.dataset.source}" width="1112" height="640">`);
+      
+  instance.show();
 }
